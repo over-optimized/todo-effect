@@ -55,5 +55,7 @@ export const removeTodo = (
     return todos.filter((t) => t.id !== id);
   });
 
-export const clearCompleted = (todos: TodoState): Effect.Effect<TodoState, never> =>
+export const clearCompleted = (
+  todos: TodoState
+): Effect.Effect<TodoState, never> =>
   Effect.succeed(todos.filter((t) => !t.completed));
