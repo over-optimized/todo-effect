@@ -5,6 +5,24 @@ export type TodoState = Todo[];
 
 export const initialTodos: TodoState = [];
 
+const STORAGE_KEY = "todo-effect-todos";
+
+export const saveTodos = (todos: TodoState): Effect.Effect<void, never> =>
+  Effect.sync(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  });
+
+export const loadTodos = (): Effect.Effect<TodoState, never> =>
+  Effect.sync(() => {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw) as TodoState;
+    } catch {
+      return [];
+    }
+  });
+
 export const addTodo = (
   todos: TodoState,
   text: string

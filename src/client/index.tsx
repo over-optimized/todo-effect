@@ -1,13 +1,26 @@
 import * as Effect from "effect/Effect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import * as TodoEffects from "./todoEffects";
 import { Todo } from "./todoTypes";
+
+type Filter = "all" | "active" | "completed";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>("all");
+
+  // Load todos from localStorage on mount
+  useEffect(() => {
+    Effect.runPromise(TodoEffects.loadTodos()).then(setTodos);
+  }, []);
+
+  // Save todos to localStorage whenever they change
+  useEffect(() => {
+    Effect.runPromise(TodoEffects.saveTodos(todos));
+  }, [todos]);
 
   const handleAdd = () => {
     Effect.runPromise(TodoEffects.addTodo(todos, input)).then(
@@ -28,6 +41,13 @@ const App = () => {
     Effect.runPromise(TodoEffects.removeTodo(todos, id)).then(setTodos);
   };
 
+  const filteredTodos =
+    filter === "all"
+      ? todos
+      : filter === "active"
+      ? todos.filter((t) => !t.completed)
+      : todos.filter((t) => t.completed);
+
   return (
     <div
       style={{ maxWidth: 400, margin: "2rem auto", fontFamily: "sans-serif" }}
@@ -43,8 +63,28 @@ const App = () => {
         <button onClick={handleAdd}>Add</button>
       </div>
       {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
-      <ul style={{ marginTop: 24, padding: 0, listStyle: "none" }}>
-        {todos.map((todo) => (
+      <div style={{ marginTop: 16, marginBottom: 8, display: "flex", gap: 8 }}>
+        <button
+          onClick={() => setFilter("all")}
+          style={{ fontWeight: filter === "all" ? "bold" : undefined }}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("active")}
+          style={{ fontWeight: filter === "active" ? "bold" : undefined }}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => setFilter("completed")}
+          style={{ fontWeight: filter === "completed" ? "bold" : undefined }}
+        >
+          Completed
+        </button>
+      </div>
+      <ul style={{ marginTop: 8, padding: 0, listStyle: "none" }}>
+        {filteredTodos.map((todo) => (
           <li
             key={todo.id}
             style={{

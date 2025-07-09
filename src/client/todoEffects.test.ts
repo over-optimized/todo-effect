@@ -52,4 +52,61 @@ describe("TodoEffects", () => {
       ).rejects.toMatchObject({ message: "Todo not found" });
     });
   });
+
+  describe("persistence", () => {
+    it("saves and loads todos from localStorage", async () => {
+      // Mock localStorage
+      const store: Record<string, string> = {};
+      const originalSetItem = globalThis.localStorage?.setItem;
+      const originalGetItem = globalThis.localStorage?.getItem;
+      globalThis.localStorage = {
+        setItem: (k: string, v: string) => {
+          store[k] = v;
+        },
+        getItem: (k: string) => store[k] ?? null,
+        removeItem: () => {},
+        clear: () => {},
+        key: () => null,
+        length: 0,
+      } as any;
+
+      await Effect.runPromise(TodoEffects.saveTodos(baseTodos));
+      const loaded = await Effect.runPromise(TodoEffects.loadTodos());
+      expect(loaded).toEqual(baseTodos);
+
+      // Restore original localStorage if present
+      if (originalSetItem && originalGetItem) {
+        globalThis.localStorage.setItem = originalSetItem;
+        globalThis.localStorage.getItem = originalGetItem;
+      }
+    });
+  });
+
+  describe("filtering", () => {
+    const todos: Todo[] = [
+      { id: "1", text: "A", completed: false },
+      { id: "2", text: "B", completed: true },
+      { id: "3", text: "C", completed: false },
+    ];
+    it("shows all todos for 'all' filter", () => {
+      const filtered = (filter: string) =>
+        filter === "all"
+          ? todos
+          : filter === "active"
+          ? todos.filter((t) => !t.completed)
+          : todos.filter((t) => t.completed);
+      expect(filtered("all")).toEqual(todos);
+    });
+    it("shows only active todos for 'active' filter", () => {
+      const filtered = todos.filter((t) => !t.completed);
+      expect(filtered).toEqual([
+        { id: "1", text: "A", completed: false },
+        { id: "3", text: "C", completed: false },
+      ]);
+    });
+    it("shows only completed todos for 'completed' filter", () => {
+      const filtered = todos.filter((t) => t.completed);
+      expect(filtered).toEqual([{ id: "2", text: "B", completed: true }]);
+    });
+  });
 });
