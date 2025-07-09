@@ -8,71 +8,49 @@ A starter project using the TypeScript Effect framework.
    ```zsh
    npm install
    ```
-2. Run the project:
+2. Run the Bun server:
    ```zsh
-   npm run start
+   npm run start:server
+   ```
+3. Run the React client (development):
+   ```zsh
+   npm run dev:client
    ```
 
-## Running the Bun Server
+## Scripts
 
-To start the Bun server:
-
-```zsh
-bun run src/server.ts
-```
-
-Or use the script:
-
-```zsh
-npm run start:server
-```
-
-## Running the React Client (Development)
-
-To start the React client in development mode with hot reload:
-
-```zsh
-bun --hot src/client/index.tsx
-```
-
-Or use the script:
-
-```zsh
-npm run dev:client
-```
+- `npm run start:server` — Start the Bun server (http://localhost:3001)
+- `npm run dev:client` — Start the React client in development mode with Vite (http://localhost:5173)
+- `npm run build:client` — Build the React client for production (output in `dist/client`)
+- `npm run build:server` — Build the server TypeScript to JavaScript (output in `dist/server`)
 
 ## Building the React Client
 
 To build the React client for production:
 
 ```zsh
-bun build src/client/index.tsx --outdir dist/client
-```
-
-Or use the script:
-
-```zsh
 npm run build:client
 ```
+
+The output will be in `dist/client`.
 
 ## Building the Bun Server
 
 To build the server TypeScript to JavaScript:
 
 ```zsh
-tsc src/server.ts --outDir dist/server
-```
-
-Or use the script:
-
-```zsh
 npm run build:server
 ```
+
+The output will be in `dist/server`.
 
 ## Project Structure
 
 - `src/main.ts`: Entry point of the application.
 - `src/types/index.ts`: Type definitions.
+- `src/server.ts`: Bun server entry point.
+- `src/client/index.tsx`: React client entry point.
+- `src/client/index.html`: React client HTML file.
 
 ## Notes
 
