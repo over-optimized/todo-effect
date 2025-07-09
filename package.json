@@ -1,0 +1,34 @@
+{
+  "name": "todo-effect",
+  "version": "1.0.0",
+  "description": "A starter project using the TypeScript Effect framework.",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "build": "tsc",
+    "start:server": "bun run src/server.ts",
+    "start:client": "bun run src/client/index.tsx",
+    "dev:client": "bun --hot src/client/index.tsx",
+    "build:client": "bun build src/client/index.tsx --outdir dist/client",
+    "build:server": "tsc src/server.ts --outDir dist/server"
+  },
+  "keywords": [
+    "typescript",
+    "effect",
+    "starter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "effect": "^2.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.18",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  }
+}
