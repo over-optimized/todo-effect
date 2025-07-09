@@ -6,7 +6,8 @@
   "scripts": {
     "start:server": "bun run src/server.ts",
     "dev:client": "vite --config vite.config.ts",
-    "build:client": "vite build --config vite.config.ts"
+    "build:client": "vite build --config vite.config.ts",
+    "test": "vitest --config vitest.config.ts"
   },
   "keywords": [
     "typescript",
@@ -26,8 +27,13 @@
     "vite": "^7.0.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/bun": "^1.2.18",
-    "typescript": "^5.0.0"
+    "jsdom": "^26.1.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.4"
   },
   "packageManager": "bun@1.2.12"
 }
