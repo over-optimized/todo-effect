@@ -1,6 +1,7 @@
 import * as Effect from "effect/Effect";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 import * as TodoEffects from "./todoEffects";
 import { Todo } from "./todoTypes";
 
@@ -53,73 +54,83 @@ const App = () => {
       : todos.filter((t) => t.completed);
 
   return (
-    <div
-      style={{ maxWidth: 400, margin: "2rem auto", fontFamily: "sans-serif" }}
-    >
-      <h1>Todo List (Effect)</h1>
-      <div style={{ display: "flex", gap: 8 }}>
+    <div className="max-w-md mx-auto mt-10 font-sans bg-white shadow-lg rounded-lg p-6">
+      <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">
+        Todo List (Effect)
+      </h1>
+      <div className="flex gap-2 mb-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Add a todo"
-          style={{ flex: 1 }}
+          className="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <button onClick={handleAdd}>Add</button>
+        <button
+          onClick={handleAdd}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Add
+        </button>
       </div>
-      {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
-      <div style={{ marginTop: 16, marginBottom: 8, display: "flex", gap: 8 }}>
+      {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
+      <div className="flex gap-2 mb-4 items-center">
         <button
           onClick={() => setFilter("all")}
-          style={{ fontWeight: filter === "all" ? "bold" : undefined }}
+          className={`px-3 py-1 rounded ${
+            filter === "all"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           All
         </button>
         <button
           onClick={() => setFilter("active")}
-          style={{ fontWeight: filter === "active" ? "bold" : undefined }}
+          className={`px-3 py-1 rounded ${
+            filter === "active"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           Active
         </button>
         <button
           onClick={() => setFilter("completed")}
-          style={{ fontWeight: filter === "completed" ? "bold" : undefined }}
+          className={`px-3 py-1 rounded ${
+            filter === "completed"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           Completed
         </button>
         <button
           onClick={handleClearCompleted}
-          style={{ marginLeft: "auto" }}
+          className="ml-auto px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600 disabled:bg-gray-300 disabled:text-gray-500 transition"
           disabled={!todos.some((t) => t.completed)}
         >
           Clear Completed
         </button>
       </div>
-      <ul style={{ marginTop: 8, padding: 0, listStyle: "none" }}>
+      <ul className="mt-2 p-0 list-none divide-y divide-gray-200">
         {filteredTodos.map((todo) => (
-          <li
-            key={todo.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginBottom: 8,
-            }}
-          >
+          <li key={todo.id} className="flex items-center gap-2 py-2 group">
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleToggle(todo.id)}
+              className="accent-blue-600 w-4 h-4"
             />
             <span
-              style={{
-                textDecoration: todo.completed ? "line-through" : undefined,
-              }}
+              className={`flex-1 ${
+                todo.completed ? "line-through text-gray-400" : "text-gray-800"
+              }`}
             >
               {todo.text}
             </span>
             <button
               onClick={() => handleRemove(todo.id)}
-              style={{ marginLeft: "auto" }}
+              className="ml-auto px-2 py-1 rounded bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white transition"
             >
               Remove
             </button>

@@ -76,20 +76,17 @@ export const simulateAsync = <A, E = never>(
 export const addTodoAsync = (
   todos: TodoState,
   text: string
-): Effect.Effect<TodoState, string> =>
-  simulateAsync(addTodo(todos, text));
+): Effect.Effect<TodoState, string> => simulateAsync(addTodo(todos, text));
 
 export const toggleTodoAsync = (
   todos: TodoState,
   id: string
-): Effect.Effect<TodoState, string> =>
-  simulateAsync(toggleTodo(todos, id));
+): Effect.Effect<TodoState, string> => simulateAsync(toggleTodo(todos, id));
 
 export const removeTodoAsync = (
   todos: TodoState,
   id: string
-): Effect.Effect<TodoState, string> =>
-  simulateAsync(removeTodo(todos, id));
+): Effect.Effect<TodoState, string> => simulateAsync(removeTodo(todos, id));
 
 export const clearCompletedAsync = (
   todos: TodoState
