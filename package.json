@@ -7,7 +7,7 @@
     "start:server": "bun run src/server.ts",
     "dev:client": "vite --config vite.config.ts",
     "build:client": "vite build --config vite.config.ts",
-    "test": "vitest --config vitest.config.ts"
+    "test": "vitest run --config vitest.config.ts"
   },
   "keywords": [
     "typescript",
