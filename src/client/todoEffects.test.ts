@@ -109,4 +109,27 @@ describe("TodoEffects", () => {
       expect(filtered).toEqual([{ id: "2", text: "B", completed: true }]);
     });
   });
+
+  describe("clearCompleted", () => {
+    it("removes all completed todos", async () => {
+      const todos: Todo[] = [
+        { id: "1", text: "A", completed: false },
+        { id: "2", text: "B", completed: true },
+        { id: "3", text: "C", completed: false },
+      ];
+      const result = await Effect.runPromise(TodoEffects.clearCompleted(todos));
+      expect(result).toEqual([
+        { id: "1", text: "A", completed: false },
+        { id: "3", text: "C", completed: false },
+      ]);
+    });
+    it("returns the same array if no completed todos", async () => {
+      const todos: Todo[] = [
+        { id: "1", text: "A", completed: false },
+        { id: "2", text: "B", completed: false },
+      ];
+      const result = await Effect.runPromise(TodoEffects.clearCompleted(todos));
+      expect(result).toEqual(todos);
+    });
+  });
 });

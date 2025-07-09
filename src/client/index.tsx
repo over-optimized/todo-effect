@@ -41,6 +41,10 @@ const App = () => {
     Effect.runPromise(TodoEffects.removeTodo(todos, id)).then(setTodos);
   };
 
+  const handleClearCompleted = () => {
+    Effect.runPromise(TodoEffects.clearCompleted(todos)).then(setTodos);
+  };
+
   const filteredTodos =
     filter === "all"
       ? todos
@@ -81,6 +85,13 @@ const App = () => {
           style={{ fontWeight: filter === "completed" ? "bold" : undefined }}
         >
           Completed
+        </button>
+        <button
+          onClick={handleClearCompleted}
+          style={{ marginLeft: "auto" }}
+          disabled={!todos.some((t) => t.completed)}
+        >
+          Clear Completed
         </button>
       </div>
       <ul style={{ marginTop: 8, padding: 0, listStyle: "none" }}>

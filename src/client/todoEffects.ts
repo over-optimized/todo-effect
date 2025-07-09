@@ -54,3 +54,6 @@ export const removeTodo = (
     if (!todos.some((t) => t.id === id)) throw "Todo not found";
     return todos.filter((t) => t.id !== id);
   });
+
+export const clearCompleted = (todos: TodoState): Effect.Effect<TodoState, never> =>
+  Effect.succeed(todos.filter((t) => !t.completed));
