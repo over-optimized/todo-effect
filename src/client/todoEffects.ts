@@ -59,3 +59,38 @@ export const clearCompleted = (
   todos: TodoState
 ): Effect.Effect<TodoState, never> =>
   Effect.succeed(todos.filter((t) => !t.completed));
+
+export const simulateAsync = <A, E = never>(
+  effect: Effect.Effect<A, E>,
+  ms = 500
+): Effect.Effect<A, E> =>
+  Effect.async<A, E>((resume) => {
+    setTimeout(() => {
+      Effect.runPromise(effect).then(
+        (value) => resume(Effect.succeed(value)),
+        (err) => resume(Effect.fail(err))
+      );
+    }, ms);
+  });
+
+export const addTodoAsync = (
+  todos: TodoState,
+  text: string
+): Effect.Effect<TodoState, string> =>
+  simulateAsync(addTodo(todos, text));
+
+export const toggleTodoAsync = (
+  todos: TodoState,
+  id: string
+): Effect.Effect<TodoState, string> =>
+  simulateAsync(toggleTodo(todos, id));
+
+export const removeTodoAsync = (
+  todos: TodoState,
+  id: string
+): Effect.Effect<TodoState, string> =>
+  simulateAsync(removeTodo(todos, id));
+
+export const clearCompletedAsync = (
+  todos: TodoState
+): Effect.Effect<TodoState, never> => simulateAsync(clearCompleted(todos));

@@ -132,4 +132,39 @@ describe("TodoEffects", () => {
       expect(result).toEqual(todos);
     });
   });
+
+  describe("async simulation", () => {
+    it("addTodoAsync resolves with a new todo after delay", async () => {
+      const start = Date.now();
+      const result = await Effect.runPromise(
+        TodoEffects.addTodoAsync(baseTodos, "Async")
+      );
+      expect(result).toHaveLength(3);
+      expect(result[2].text).toBe("Async");
+      expect(Date.now() - start).toBeGreaterThanOrEqual(490); // allow for timer drift
+    });
+    it("toggleTodoAsync toggles a todo after delay", async () => {
+      const result = await Effect.runPromise(
+        TodoEffects.toggleTodoAsync(baseTodos, "1")
+      );
+      expect(result[0].completed).toBe(true);
+    });
+    it("removeTodoAsync removes a todo after delay", async () => {
+      const result = await Effect.runPromise(
+        TodoEffects.removeTodoAsync(baseTodos, "1")
+      );
+      expect(result).toHaveLength(1);
+      expect(result[0].id).toBe("2");
+    });
+    it("clearCompletedAsync removes completed todos after delay", async () => {
+      const todos: Todo[] = [
+        { id: "1", text: "A", completed: false },
+        { id: "2", text: "B", completed: true },
+      ];
+      const result = await Effect.runPromise(
+        TodoEffects.clearCompletedAsync(todos)
+      );
+      expect(result).toEqual([{ id: "1", text: "A", completed: false }]);
+    });
+  });
 });

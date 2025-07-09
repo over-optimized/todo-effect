@@ -23,7 +23,7 @@ const App = () => {
   }, [todos]);
 
   const handleAdd = () => {
-    Effect.runPromise(TodoEffects.addTodo(todos, input)).then(
+    Effect.runPromise(TodoEffects.addTodoAsync(todos, input)).then(
       (newTodos) => {
         setTodos(newTodos);
         setInput("");
@@ -34,15 +34,15 @@ const App = () => {
   };
 
   const handleToggle = (id: string) => {
-    Effect.runPromise(TodoEffects.toggleTodo(todos, id)).then(setTodos);
+    Effect.runPromise(TodoEffects.toggleTodoAsync(todos, id)).then(setTodos);
   };
 
   const handleRemove = (id: string) => {
-    Effect.runPromise(TodoEffects.removeTodo(todos, id)).then(setTodos);
+    Effect.runPromise(TodoEffects.removeTodoAsync(todos, id)).then(setTodos);
   };
 
   const handleClearCompleted = () => {
-    Effect.runPromise(TodoEffects.clearCompleted(todos)).then(setTodos);
+    Effect.runPromise(TodoEffects.clearCompletedAsync(todos)).then(setTodos);
   };
 
   const filteredTodos =
