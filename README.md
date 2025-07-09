@@ -22,7 +22,6 @@ A starter project using the TypeScript Effect framework.
 - `npm run start:server` — Start the Bun server (http://localhost:3001)
 - `npm run dev:client` — Start the React client in development mode with Vite (http://localhost:5173)
 - `npm run build:client` — Build the React client for production (output in `dist/client`)
-- `npm run build:server` — Build the server TypeScript to JavaScript (output in `dist/server`)
 
 ## Building the React Client
 
@@ -33,16 +32,6 @@ npm run build:client
 ```
 
 The output will be in `dist/client`.
-
-## Building the Bun Server
-
-To build the server TypeScript to JavaScript:
-
-```zsh
-npm run build:server
-```
-
-The output will be in `dist/server`.
 
 ## Project Structure
 

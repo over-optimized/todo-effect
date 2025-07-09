@@ -1,10 +1,15 @@
 import { serve } from "bun";
+import { resolve } from "path";
+import { getFilePath, readFileOr404 } from "./serverUtils";
 
 const port = 3001;
+const clientDist = resolve(process.cwd(), "dist/client");
 
 serve({
-  fetch() {
-    return new Response("Hello from Bun server!");
+  async fetch(req) {
+    const url = new URL(req.url);
+    const filePath = getFilePath(clientDist, url.pathname);
+    return readFileOr404(filePath);
   },
   port,
 });
