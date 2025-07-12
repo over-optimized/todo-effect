@@ -1,5 +1,7 @@
 import react from "@vitejs/plugin-react";
+import autoprefixer from "autoprefixer";
 import { resolve } from "path";
+import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -10,7 +12,9 @@ export default defineConfig({
   },
   plugins: [react()],
   css: {
-    postcss: "./postcss.config.js",
+    postcss: {
+      plugins: [tailwindcss(), autoprefixer()],
+    },
   },
   server: {
     port: 5173,
